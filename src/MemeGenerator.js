@@ -10,6 +10,7 @@ class MemeGenerator extends Component {
       allMemeImgs: []
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -17,6 +18,7 @@ class MemeGenerator extends Component {
       .then(response => response.json())
       .then(response => {
         const {memes} = response.data
+        console.log(memes)
         this.setState({allMemeImgs: memes})
       })
   }
@@ -27,22 +29,26 @@ class MemeGenerator extends Component {
     this.setState({[name]: value})
   }
 
+  handleSubmit(event) {
+    event.preventDefault()
+    const index = Math.floor(Math.random() * this.state.allMemeImgs.length)
+    const {url} = this.state.allMemeImgs[index]
+    this.setState({randomImg: url})
+  }
+
   render() {
     return (
       <div>
-        <form className="meme-form">
-            {
-                /**
-                  * Create 2 input fields, one for the topText and one for the bottomText
-                  * Remember that these will be "controlled forms", so make sure to add
-                  * all the attributes you'll need for that to work
-                  */
-            }
-            <input type="text" name="topText" value={this.state.topText} onChange={this.handleChange} placeholder="Add top text" />
-            <input type="text" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} placeholder="Add bottom text" />
-
+        <form className="meme-form" onSubmit={this.handleSubmit}>
+          <input type="text" name="topText" value={this.state.topText} onChange={this.handleChange} placeholder="Add top text" />
+          <input type="text" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} placeholder="Add bottom text" />
           <button>Gen</button>
         </form>
+        <div className="meme">
+          <img src={this.state.randomImg} alt="meme background" />
+          <h2 className="top">{this.state.topText}</h2>
+          <h2 className="bottom">{this.state.bottomText}</h2>
+        </div>
       </div>
     )
   }
