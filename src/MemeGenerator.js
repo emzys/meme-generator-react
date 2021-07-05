@@ -9,8 +9,6 @@ class MemeGenerator extends Component {
       randomImg: "http://i.imgflip.com/1bij.jpg",
       allMemeImgs: []
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -23,13 +21,13 @@ class MemeGenerator extends Component {
       })
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     // console.log("work")
     const {name, value} = event.target
     this.setState({[name]: value})
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault()
     const index = Math.floor(Math.random() * this.state.allMemeImgs.length)
     const {url} = this.state.allMemeImgs[index]
